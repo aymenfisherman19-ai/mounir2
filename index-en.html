@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Mounir — Nutrition Plan</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap"
+      media="print" onload="this.media='all'"/>
+<noscript>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap"/>
+</noscript>
+
+<style>
+:root {
+  --bg: #070d1a;
+  --card: #0d1b30;
+  --card2: #0a1525;
+  --border: #1a2e4a;
+  --orange: #f97316;
+  --orange2: #ea580c;
+  --lime: #a3e635;
+  --cyan: #38bdf8;
+  --pink: #f472b6;
+  --yellow: #fbbf24;
+  --muted: #4a6080;
+  --sub: #7a9ab5;
+  --text: #dde9f5;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  padding-bottom: 60px;
+  direction: ltr;
+}
+
+/* ─── HERO HEADER ─── */
+.hero {
+  background: linear-gradient(160deg, #091525 0%, #0a1020 50%, #0d0a1a 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 24px 16px 0;
+  position: relative;
+  overflow: hidden;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  top: -80px; right: -80px;
+  width: 260px; height: 260px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(249,115,22,0.12) 0%, transparent 65%);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  font-weight: 700; font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--orange); margin-bottom: 6px;
+}
+.hero h1 {
+  font-size: 34px; font-weight: 900;
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+.hero h1 em { color: var(--orange); font-style: normal; }
+.hero-sub { color: var(--muted); font-size: 12px; margin-bottom: 18px; }
+
+/* ─── STATS ROW ─── */
+.stats-row {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1px; background: var(--border);
+  margin: 0 -16px;
+  border-top: 1px solid var(--border);
+}
+.stat-box {
+  background: var(--card2); padding: 12px 10px; text-align: center;
+}
+.stat-label { font-size: 9px; letter-spacing: 1px; color: var(--muted); margin-bottom: 3px; font-weight: 700; text-transform: uppercase; }
+.stat-val { font-size: 20px; font-weight: 800; color: var(--text); line-height: 1; }
+.stat-val small { font-size: 10px; color: var(--muted); font-weight: 400; display: block; }
+
+/* ─── TABS ─── */
+.tabs-row { display: flex; gap: 0; padding: 0 16px; background: var(--card2); border-bottom: 1px solid var(--border); overflow-x: auto; }
+.tab {
+  padding: 12px 14px; font-size: 12px; font-weight: 700;
+  color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  background: none; border-top: none; border-left: none; border-right: none;
+  font-family: 'Inter', sans-serif;
+}
+.tab.active { color: var(--orange); border-bottom-color: var(--orange); }
+
+/* ─── MAIN CONTENT ─── */
+main { padding: 16px; max-width: 700px; margin: 0 auto; }
+.section { display: none; content-visibility: auto; }
+.section.active { display: block; }
+
+/* ─── MACRO RING SECTION ─── */
+.calories-hero {
+  background: linear-gradient(145deg, #0f2040, #0a1525);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--orange);
+  border-radius: 14px; padding: 20px; margin-bottom: 16px;
+  display: flex; align-items: center; gap: 16px;
+}
+.cal-number {
+  font-size: 64px; font-weight: 900; line-height: 1;
+  color: var(--orange); letter-spacing: -2px; flex-shrink: 0;
+}
+.cal-detail { flex: 1; }
+.cal-detail h3 { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+.cal-row { display: flex; justify-content: space-between; font-size: 11px; padding: 3px 0; color: var(--sub); border-bottom: 1px solid rgba(255,255,255,0.04); }
+.cal-row:last-child { border: none; }
+.cal-row span { font-weight: 700; color: var(--text); }
+
+/* ─── MACRO PILLS ─── */
+.macro-pills { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+.macro-pill {
+  border-radius: 12px; padding: 14px 12px;
+  border: 1px solid rgba(255,255,255,0.06);
+  text-align: center; position: relative; overflow: hidden;
+}
+.macro-pill::before {
+  content: ''; position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+}
+.macro-pill.prot { background: linear-gradient(145deg,#1a2f0f,#0d1a08); }
+.macro-pill.prot::before { background: var(--lime); }
+.macro-pill.carb { background: linear-gradient(145deg,#1f1a08,#0f0d04); }
+.macro-pill.carb::before { background: var(--yellow); }
+.macro-pill.fat { background: linear-gradient(145deg,#0d1f30,#060f1a); }
+.macro-pill.fat::before { background: var(--cyan); }
+.pill-g { font-size: 32px; font-weight: 900; line-height: 1; margin-bottom: 2px; }
+.macro-pill.prot .pill-g { color: var(--lime); }
+.macro-pill.carb .pill-g { color: var(--yellow); }
+.macro-pill.fat .pill-g { color: var(--cyan); }
+.pill-label { font-size: 10px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+.pill-kcal { font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+/* ─── CALC BREAKDOWN ─── */
+.calc-card {
+  background: var(--card2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 16px; margin-bottom: 14px;
+}
+.calc-title { font-size: 12px; color: var(--muted); margin-bottom: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+.calc-line {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 9px 12px; border-radius: 8px; margin-bottom: 4px;
+  font-size: 13px;
+}
+.calc-line.row1 { background: rgba(249,115,22,0.07); }
+.calc-line.row2 { background: rgba(56,189,248,0.07); }
+.calc-line.row3 { background: rgba(251,191,36,0.07); }
+.calc-line.row4 { background: rgba(163,230,53,0.12); border: 1px solid rgba(163,230,53,0.2); }
+.calc-line .lbl { color: var(--sub); font-size: 12px; }
+.calc-line .val { font-weight: 800; font-size: 17px; }
+
+/* ─── MEAL CARDS ─── */
+.meals-header { font-size: 22px; font-weight: 900; color: var(--text); margin-bottom: 14px; }
+.meals-header em { color: var(--orange); font-style: normal; }
+
+.meal-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; margin-bottom: 12px;
+  overflow: hidden;
+}
+.meal-card:hover { border-color: rgba(249,115,22,0.3); }
+
+.meal-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px; cursor: pointer; user-select: none;
+}
+.meal-num {
+  font-size: 11px; font-weight: 800;
+  color: var(--orange); background: rgba(249,115,22,0.1);
+  border: 1px solid rgba(249,115,22,0.2);
+  border-radius: 6px; padding: 3px 8px; flex-shrink: 0;
+}
+.meal-info { flex: 1; }
+.meal-time { font-size: 11px; color: var(--muted); }
+.meal-name { font-size: 14px; font-weight: 700; margin-top: 1px; }
+.meal-kcal {
+  font-size: 20px; font-weight: 800; color: var(--orange); flex-shrink: 0; text-align: right;
+}
+.meal-kcal small { font-size: 10px; color: var(--muted); font-weight: 400; display: block; text-align: center; }
+
+.meal-body { padding: 0 16px 14px; display: none; }
+.meal-body.open { display: block; }
+.divider { height: 1px; background: var(--border); margin-bottom: 12px; }
+
+.food-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 10px; border-radius: 8px; margin-bottom: 6px;
+  background: rgba(255,255,255,0.02);
+  font-size: 12px;
+}
+.food-row:last-of-type { margin-bottom: 12px; }
+.food-left { display: flex; align-items: center; gap: 8px; }
+.food-icon { font-size: 16px; }
+.food-name { font-weight: 600; color: var(--text); }
+.food-qty { font-size: 10px; color: var(--muted); margin-top: 1px; }
+.food-macros { display: flex; gap: 5px; }
+.tag {
+  font-size: 9px; font-weight: 700; padding: 2px 5px; border-radius: 4px;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.tag.p { background: rgba(163,230,53,0.12); color: var(--lime); }
+.tag.c { background: rgba(251,191,36,0.12); color: var(--yellow); }
+.tag.f { background: rgba(56,189,248,0.12); color: var(--cyan); }
+
+.meal-macro-bar {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 8px; background: rgba(255,255,255,0.025);
+  border-radius: 8px; padding: 10px;
+}
+.mmb-item { text-align: center; }
+.mmb-val { font-size: 18px; font-weight: 800; }
+.mmb-lbl { font-size: 9px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* ─── TIPS ─── */
+.tip-card {
+  background: var(--card2); border: 1px solid var(--border);
+  border-left: 3px solid; border-radius: 10px; padding: 12px 14px;
+  margin-bottom: 10px; font-size: 13px; line-height: 1.8;
+}
+.tip-title { font-weight: 800; font-size: 13px; margin-bottom: 6px; }
+
+/* ─── WEEKLY SCHEDULE ─── */
+.day-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; background: var(--card2);
+  border: 1px solid var(--border); border-radius: 8px; margin-bottom: 8px;
+}
+.day-label { font-weight: 700; font-size: 12px; min-width: 80px; }
+.day-tag {
+  font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 6px;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.day-tag.train { background: rgba(249,115,22,0.15); color: var(--orange); }
+.day-tag.rest { background: rgba(74,96,128,0.2); color: var(--muted); }
+.day-note { font-size: 11px; color: var(--sub); margin-left: auto; }
+
+/* ─── TOTAL BAR ─── */
+.total-bar {
+  background: linear-gradient(135deg, #0f2040, #0d1520);
+  border: 1px solid rgba(249,115,22,0.25);
+  border-radius: 14px; padding: 16px;
+  margin-top: 4px;
+}
+.total-title { font-size: 11px; color: var(--muted); margin-bottom: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+.total-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 13px; }
+.total-row:last-child { border: none; padding-top: 10px; }
+.total-row .lbl { color: var(--sub); }
+.total-row .big { font-size: 22px; font-weight: 800; }
+
+.progress-wrap { margin-top: 10px; }
+.progress-label { display: flex; justify-content: space-between; font-size: 10px; color: var(--muted); margin-bottom: 4px; }
+.progress-track { height: 6px; background: rgba(255,255,255,0.05); border-radius: 10px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 10px; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <p class="hero-eyebrow">🏋️ Summer Body Transformation — Nutrition Plan</p>
+  <h1>Mounir <em>/ Fat Loss Plan</em></h1>
+  <p class="hero-sub">96 kg · 179 cm · 25 years old · Mechanic (Moderate–High Activity)</p>
+
+  <div class="stats-row">
+    <div class="stat-box">
+      <div class="stat-label">BMR</div>
+      <div class="stat-val">1959<small>kcal</small></div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">TDEE</div>
+      <div class="stat-val">3036<small>kcal</small></div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Deficit</div>
+      <div class="stat-val">−550<small>kcal</small></div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Daily Goal</div>
+      <div class="stat-val" style="color:var(--orange)">2080<small>kcal</small></div>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs-row">
+  <button class="tab active" onclick="switchTab('macros',this)">📊 Macros</button>
+  <button class="tab" onclick="switchTab('meals',this)">🍽️ Meal Plan</button>
+  <button class="tab" onclick="switchTab('tips',this)">💡 Tips</button>
+</div>
+
+<main>
+
+<!-- ══════════ MACROS TAB ══════════ -->
+<div class="section active" id="sec-macros">
+
+  <div class="calories-hero">
+    <div class="cal-number">2080</div>
+    <div class="cal-detail">
+      <h3>Daily Calorie Target</h3>
+      <div class="cal-row">BMR (Mifflin formula) <span>1,959 kcal</span></div>
+      <div class="cal-row">× Activity Factor (Mechanic 1.55) <span>3,036 kcal</span></div>
+      <div class="cal-row">Fat loss deficit <span>− 550 kcal</span></div>
+      <div class="cal-row" style="color:var(--orange)">🎯 Daily Target <span style="color:var(--orange)">2,080 kcal</span></div>
+    </div>
+  </div>
+
+  <div class="macro-pills">
+    <div class="macro-pill prot">
+      <div class="pill-g">230<span style="font-size:14px">g</span></div>
+      <div class="pill-label">Protein</div>
+      <div class="pill-kcal">920 kcal · 44%</div>
+    </div>
+    <div class="macro-pill carb">
+      <div class="pill-g">140<span style="font-size:14px">g</span></div>
+      <div class="pill-label">Carbs</div>
+      <div class="pill-kcal">560 kcal · 27%</div>
+    </div>
+    <div class="macro-pill fat">
+      <div class="pill-g">66<span style="font-size:14px">g</span></div>
+      <div class="pill-label">Fat</div>
+      <div class="pill-kcal">594 kcal · 29%</div>
+    </div>
+  </div>
+
+  <div class="calc-card">
+    <div class="calc-title">📐 Protein Calculation</div>
+    <div class="calc-line row1">
+      <div class="val" style="color:var(--lime)">202g</div>
+      <div>
+        <div style="font-weight:700;font-size:13px">Minimum (×2.1)</div>
+        <div class="lbl">Minimum to preserve muscle mass</div>
+      </div>
+    </div>
+    <div class="calc-line row4">
+      <div class="val" style="color:var(--lime)">207g</div>
+      <div>
+        <div style="font-weight:700;font-size:13px">✓ Target (×2.15)</div>
+        <div class="lbl">96 kg × 2.15 — optimal for cutting phase</div>
+      </div>
+    </div>
+    <div class="calc-line row2">
+      <div class="val" style="color:var(--lime)">211g</div>
+      <div>
+        <div style="font-weight:700;font-size:13px">Maximum (×2.2)</div>
+        <div class="lbl">Upper limit</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="calc-card">
+    <div class="calc-title">⚡ Expected Fat Loss Rate</div>
+    <div class="calc-line row1">
+      <div class="val" style="color:var(--orange)">3,850 kcal</div>
+      <div>
+        <div style="font-weight:700;font-size:13px">Weekly deficit</div>
+        <div class="lbl">550 kcal/day × 7</div>
+      </div>
+    </div>
+    <div class="calc-line row3">
+      <div class="val" style="color:var(--yellow)">~0.5 kg</div>
+      <div>
+        <div style="font-weight:700;font-size:13px">Fat loss / week</div>
+        <div class="lbl">~0.5 kg net fat (healthy pace)</div>
+      </div>
+    </div>
+    <div class="calc-line row4">
+      <div class="val" style="color:var(--lime)">~6 kg fat</div>
+      <div>
+        <div style="font-weight:700;font-size:13px">12-week projection</div>
+        <div class="lbl">Summer ready 🏖️</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /macros -->
+
+<!-- ══════════ MEALS TAB ══════════ -->
+<div class="section" id="sec-meals">
+
+  <p class="meals-header">Daily Plan — <em>5 Meals</em></p>
+
+  <!-- Meal 1 -->
+  <div class="meal-card">
+    <div class="meal-header" onclick="toggleMeal(this)">
+      <div class="meal-num">Meal 1</div>
+      <div class="meal-info">
+        <div class="meal-time">🌅 Morning — Protein + Fat</div>
+        <div class="meal-name">Egg Omelette + Skyr + Almonds</div>
+      </div>
+      <div class="meal-kcal">410<small>kcal</small></div>
+    </div>
+    <div class="meal-body">
+      <div class="divider"></div>
+      <div class="food-row">
+        <div class="food-left">
+          <span class="food-icon">🥚</span>
+          <div><div class="food-name">4 egg whites + 2 whole eggs</div><div class="food-qty">Omelette or scrambled — no oil</div></div>
+        </div>
+        <div class="food-macros"><span class="tag p">P 24g</span><span class="tag c">C 1g</span><span class="tag f">F 10g</span></div>
+      </div>
+      <div class="food-row">
+        <div class="food-left">
+          <span class="food-icon">🥛</span>
+          <div><div class="food-name">Natural Skyr (0% fat)</div><div class="food-qty">100g — high protein, low fat</div></div>
+        </div>
+        <div class="food-macros"><span class="tag p">P 11g</span><span class="tag c">C 4g</span><span class="tag f">F 0g</span></div>
+      </div>
+      <div class="food-row">
+        <div class="food-left">
+          <span class="food-icon">🌰</span>
+          <div><div class="food-name">Almonds</div><div class="food-qty">30g — or 10g olive oil (optional)</div></div>
+        </div>
+        <div class="food-macros"><span class="tag p">P 6g</span><span class="tag c">C 3g</span><span class="tag f">F 13g</span></div>
+      </div>
+      <div class="food-row">
+        <div class="food-left">
+          <span class="food-icon">☕</span>
+          <div><div class="food-name">Coffee or Tea</div><div class="food-qty">No sugar — unlimited</div></div>
+        </div>
+        <div class="food-macros"><span class="tag p">P 0g</span><span class="tag c">C 0g</span><span class="tag f">F 0g</span></div>
+      </div>
+      <div class="meal-macro-bar">
+        <div class="mmb-item"><div class="mmb-val" style="color:var(--lime)">43g</div><div class="mmb-lbl">Protein</div></div>
+        <div class="mmb-item"><div class="mmb-val" style="color:var(--yellow)">9g</div><div class="mmb-lbl">Carbs</div></div>
+        <div class="mmb-item"><div class="mmb-val" style="color:var(--cyan)">23g</div><div class="mmb-lbl">Fat</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Meal 2 -->
+  <div class="meal-card">
+    <div class="meal-header" onclick="toggleMeal(this)">
+      <div class="meal-num">Meal 2</div>
+      <div class="meal-info">
+        <div class="meal-time">🕑 Lunch — Main Meal</div>
+        <div class="meal-name">Beef / Chicken + Rice + Vegetables</div>
+      </div>
+      <div class="meal-kcal">560<small>kcal</small></div>
+    </div>
+    <div class="meal-body">
+      <div class="divider"></div>
+      <div class="food-row">
+        <div class="food-left">
+          <span class="food-icon">🥩</span>
+          <div><div class="food-name">Lean beef (5% fat) or chicken breast</div><div class="food-qty">200g — grilled or steamed</div></div>
+        </div>
+        <div class="food-macros"><span class="tag p">P 40g</span><span class="tag c">C 0g</span><span class="tag f">F 10g</span></div>
+      </div>
+      <div class="food-row">
+        <div class="food-left">
+          <span class="food-icon">🍚</span>
+          <div><div class="food-name">Rice / whole pasta / sweet potato</div><div class="food-qty">70g raw (≈ 220-230g cooked)</div></div>
+        </div>
+        <div class="food-macros"><span class="tag p">P 5g</span><span class="tag c">C 54g</span><span class="tag f">F 1g</span></div>
+      </div>
+      <div class="food-row">
+        <div class="food-left">
+          <span class="food-icon">🥗</span>
+          <div><div class="food-name">Mixed vegetables</div><div class="food-qty">200g — salad, raw or cooked veggies</div></div>
+        </div>
+        <div class="food-macros"><span class="tag p">P 2g</span><span class="tag c">C 8g</span><span class="tag f">F 0g</span></div>
+      </div>
+      <div class="food-row">
+        <div class="food-left">
+          <span class="food-icon">🫒</span>
+          <div><div class="food-name">Olive oil or almonds</div><div class="food-qty">15g olive oil or 20g almonds</div></div>
+        </div>
+        <div class="food-macros"><span class="tag p">P 0g</span><span class="tag c">C 0g</span><span class="tag f">F 14g</span></div>
+      </div>
+      <div class="meal-macro-bar">
+        <div class="mmb-item"><div class="mmb-val" style="color:var(--lime)">46g</div><div class="mmb-lbl">Protein</div></div>
+        <div class="mmb-item"><div class="mmb-val" style="color:var(--yellow)">60g</div><div class="mmb-lbl">Carbs</div></div>
+        <div class="mmb-item"><div class="mmb-val" style="color:var(--cyan)">14g</div><div class="mmb-lbl">Fat</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pre-Workout -->
+  <div class="meal-card">
+    <div class="meal-header" onclick="toggleMeal(this)">
+      <div class="meal-num">Pre-Workout</div>
+      <div class="meal-info">
+        <div class="meal-time">⚡ 30–60 min before training</div>
+        <div class="meal-name">Banana + Whey Protein + Coffee</div>
+      </div>
+      <div class="meal-kcal">230<small>kcal</small></div>
+    </div>
+    <div class="meal-body">
+      <div class="divider"></div>
+      <div class="food-row">
+        <div class="food-left">
+          <span class="food-icon">🍌</span>
+          <div><div class="food-name">Medium banana</div><div class="food-qty">120g — fast carbs for energy</div></div>
+        </div>
+        <div class="food-macros"><span class="tag p">P 1g</span><span class="tag c">C 27g</span><span class="tag f">F 0g</span></div>
+      </div>
+      <div class="food-row">
+        <div class="food-left">
+          <span class="food-icon">💪</span>
+          <div><div class="food-name">Iso Whey Protein</div><div class="food-qty">30g — with water in shaker</div></div>
+        </div>
+        <div class="food-macros"><span class="tag p">P 25g</span><span class="tag c">C 1g</span><span class="tag f">F 1g</span></div>
+      </div>
+      <div class="food-row">
+        <div class="food-left">
+          <span class="food-icon">☕</span>
+          <div><div class="food-name">Black coffee</div><div class="food-qty">No sugar — energy & focus boost</div></div>
+        </div>
+        <div class="food-macros"><span class="tag p">P 0g</span><span class="tag c">C 0g</span><span class="tag f">F 0g</span></div>
+      </div>
+      <div class="meal-macro-bar">
+        <div class="mmb-item"><div class="mmb-val" style="color:var(--lime)">27g</div><div class="mmb-lbl">Protein</div></div>
+        <div class="mmb-item"><div class="mmb-val" style="color:var(--yellow)">28g</div><div class="mmb-lbl">Carbs</div></div>
+        <div class="mmb-item"><div class="mmb-val" style="color:var(--cyan)">1g</div><div class="mmb-lbl">Fat</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Post-Workout -->
+  <div class="meal-card">
+    <div class="meal-header" onclick="toggleMeal(this)">
+      <div class="meal-num">Post-Workout</div>
+      <div class="meal-info">
+        <div class="meal-time">🏋️ Right after training</div>
+        <div class="meal-name">Chicken + Green Vegetables</div>
+      </div>
+      <div class="meal-kcal">300<small>kcal</small></div>
+    </div>
+    <div class="meal-body">
+      <div class="divider"></div>
+      <div class="food-row">
+        <div class="food-left">
+          <span class="food-icon">🍗</span>
+          <div><div class="food-name">Chicken breast</div><div class="food-qty">250-270g cooked, skinless</div></div>
+        </div>
+        <div class="food-macros"><span class="tag p">P 55g</span><span class="tag c">C 0g</span><span class="tag f">F 5g</span></div>
+      </div>
+      <div class="food-row">
+        <div class="food-left">
+          <span class="food-icon">🥦</span>
+          <div><div class="food-name">Green vegetables</div><div class="food-qty">300-400g — cucumber, zucchini, broccoli, green beans...</div></div>
+        </div>
+        <div class="food-macros"><span class="tag p">P 4g</span><span class="tag c">C 6g</span><span class="tag f">F 0g</span></div>
+      </div>
+      <div class="food-row">
+        <div class="food-left">
+          <span class="food-icon">🧄</span>
+          <div><div class="food-name">Seasoning</div><div class="food-qty">Salt, lemon, spices, mustard, garlic — unlimited</div></div>
+        </div>
+        <div class="food-macros"><span class="tag p">P 0g</span><span class="tag c">C 0g</span><span class="tag f">F 0g</span></div>
+      </div>
+      <div class="meal-macro-bar">
+        <div class="mmb-item"><div class="mmb-val" style="color:var(--lime)">58g</div><div class="mmb-lbl">Protein</div></div>
+        <div class="mmb-item"><div class="mmb-val" style="color:var(--yellow)">6g</div><div class="mmb-lbl">Carbs</div></div>
+        <div class="mmb-item"><div class="mmb-val" style="color:var(--cyan)">5g</div><div class="mmb-lbl">Fat</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Meal 5 -->
+  <div class="meal-card">
+    <div class="meal-header" onclick="toggleMeal(this)">
+      <div class="meal-num">Meal 5</div>
+      <div class="meal-info">
+        <div class="meal-time">🌙 Evening — Last Meal</div>
+        <div class="meal-name">Eggs + Tuna + Skyr + Whole Bread</div>
+      </div>
+      <div class="meal-kcal">580<small>kcal</small></div>
+    </div>
+    <div class="meal-body">
+      <div class="divider"></div>
+      <div class="food-row">
+        <div class="food-left">
+          <span class="food-icon">🥚</span>
+          <div><div class="food-name">4 whole eggs, hard-boiled</div><div class="food-qty">Hard or medium — as preferred</div></div>
+        </div>
+        <div class="food-macros"><span class="tag p">P 24g</span><span class="tag c">C 2g</span><span class="tag f">F 20g</span></div>
+      </div>
+      <div class="food-row">
+        <div class="food-left">
+          <span class="food-icon">🐟</span>
+          <div><div class="food-name">Tuna in water</div><div class="food-qty">50g drained — canned</div></div>
+        </div>
+        <div class="food-macros"><span class="tag p">P 11g</span><span class="tag c">C 0g</span><span class="tag f">F 1g</span></div>
+      </div>
+      <div class="food-row">
+        <div class="food-left">
+          <span class="food-icon">🥛</span>
+          <div><div class="food-name">Natural Skyr 0%</div><div class="food-qty">100g — rich in casein, ideal before bed</div></div>
+        </div>
+        <div class="food-macros"><span class="tag p">P 11g</span><span class="tag c">C 4g</span><span class="tag f">F 0g</span></div>
+      </div>
+      <div class="food-row">
+        <div class="food-left">
+          <span class="food-icon">🍞</span>
+          <div><div class="food-name">Whole grain bread</div><div class="food-qty">2 slices (60-70g) — wholemeal or seeded</div></div>
+        </div>
+        <div class="food-macros"><span class="tag p">P 7g</span><span class="tag c">C 30g</span><span class="tag f">F 2g</span></div>
+      </div>
+      <div class="meal-macro-bar">
+        <div class="mmb-item"><div class="mmb-val" style="color:var(--lime)">56g</div><div class="mmb-lbl">Protein</div></div>
+        <div class="mmb-item"><div class="mmb-val" style="color:var(--yellow)">37g</div><div class="mmb-lbl">Carbs</div></div>
+        <div class="mmb-item"><div class="mmb-val" style="color:var(--cyan)">23g</div><div class="mmb-lbl">Fat</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Daily Totals -->
+  <div class="total-bar">
+    <div class="total-title">✅ Daily Totals</div>
+    <div class="total-row"><span class="lbl">Total Calories</span><span class="big" style="color:var(--orange)">2,080 kcal</span></div>
+    <div class="total-row"><span class="lbl">Protein</span><span class="big" style="color:var(--lime)">230g</span></div>
+    <div class="total-row"><span class="lbl">Carbohydrates</span><span class="big" style="color:var(--yellow)">140g</span></div>
+    <div class="total-row"><span class="lbl">Fat</span><span class="big" style="color:var(--cyan)">66g</span></div>
+
+    <div class="progress-wrap">
+      <div style="margin-bottom:8px">
+        <div class="progress-label"><span>230g</span><span style="color:var(--lime)">Protein 44%</span></div>
+        <div class="progress-track"><div class="progress-fill" style="width:44%;background:var(--lime)"></div></div>
+      </div>
+      <div style="margin-bottom:8px">
+        <div class="progress-label"><span>140g</span><span style="color:var(--yellow)">Carbs 27%</span></div>
+        <div class="progress-track"><div class="progress-fill" style="width:27%;background:var(--yellow)"></div></div>
+      </div>
+      <div>
+        <div class="progress-label"><span>66g</span><span style="color:var(--cyan)">Fat 29%</span></div>
+        <div class="progress-track"><div class="progress-fill" style="width:29%;background:var(--cyan)"></div></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /meals -->
+
+<!-- ══════════ TIPS TAB ══════════ -->
+<div class="section" id="sec-tips">
+
+  <p class="meals-header">Nutritionist <em>Tips</em></p>
+
+  <div class="tip-card" style="border-color:var(--lime)">
+    <div class="tip-title" style="color:var(--lime)">💧 Hydration</div>
+    Drink at least <strong>3 to 3.5 litres of water per day</strong>. As a mechanic with high physical activity, dehydration will hurt your performance and slow fat burning. Start every morning with a large glass of water before your first meal.
+  </div>
+
+  <div class="tip-card" style="border-color:var(--orange)">
+    <div class="tip-title" style="color:var(--orange)">🍳 Meal Prep (Sunday)</div>
+    Cook chicken, rice, and vegetables in large batches every Sunday. Divide them in advance into sealed containers. This makes hitting your macros non-negotiable during busy workdays.
+  </div>
+
+  <div class="tip-card" style="border-color:var(--yellow)">
+    <div class="tip-title" style="color:var(--yellow)">⚙️ Carb Timing</div>
+    Focus most of your carbs <strong>around your workout</strong> (lunch + pre-workout). On rest days, cut pre-workout carbs by 50% — swap the banana for vegetables or a smaller portion.
+  </div>
+
+  <div class="tip-card" style="border-color:var(--cyan)">
+    <div class="tip-title" style="color:var(--cyan)">🥩 Beef vs Chicken Rotation</div>
+    Beef is capped at 200g/day. On days without beef, replace it with: <strong>200g extra chicken breast</strong>, or <strong>150g canned sardines</strong> to boost Omega-3. Include sardines 2–3 times per week.
+  </div>
+
+  <div class="tip-card" style="border-color:var(--pink)">
+    <div class="tip-title" style="color:var(--pink)">🚫 Foods to Avoid</div>
+    <strong>Merguez, fried foods, Algerian pastries (baklava, zlabia), sodas, too much harissa, excess white bread</strong>. These foods will silently break your deficit without feeling like you've cheated.
+  </div>
+
+  <div class="tip-card" style="border-color:var(--muted)">
+    <div class="tip-title" style="color:var(--sub)">🌿 Free Vegetables</div>
+    The following vegetables can be eaten freely (no counting needed): <strong>lettuce, cucumber, tomatoes, zucchini, green pepper, spinach, fresh herbs (coriander, parsley), lemon juice</strong>. They add volume, fiber, and minerals for almost zero calories.
+  </div>
+
+  <div style="background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px;">
+    <div class="calc-title">📅 Weekly Schedule</div>
+    <div class="day-row"><div class="day-label">Monday</div><div class="day-tag train">Training</div><div class="day-note">Full macros</div></div>
+    <div class="day-row"><div class="day-label">Tuesday</div><div class="day-tag train">Training</div><div class="day-note">Full macros</div></div>
+    <div class="day-row"><div class="day-label">Wednesday</div><div class="day-tag rest">Rest</div><div class="day-note">−50g carbs</div></div>
+    <div class="day-row"><div class="day-label">Thursday</div><div class="day-tag train">Training</div><div class="day-note">Full macros</div></div>
+    <div class="day-row"><div class="day-label">Friday</div><div class="day-tag train">Training</div><div class="day-note">Full macros</div></div>
+    <div class="day-row"><div class="day-label">Saturday</div><div class="day-tag rest">Rest</div><div class="day-note">−50g carbs</div></div>
+    <div class="day-row"><div class="day-label">Sunday</div><div class="day-tag rest">Prep</div><div class="day-note">−50g carbs</div></div>
+  </div>
+
+  <div class="tip-card" style="border-color:var(--orange)">
+    <div class="tip-title" style="color:var(--orange)">📏 Reassessment Schedule</div>
+    Take new body measurements <strong>every 2 weeks</strong> (same time, fasted in the morning). If weight loss stalls for more than 2 weeks, reduce carbs by 20g and reassess. Log everything for body tracking.
+  </div>
+
+</div><!-- /tips -->
+
+</main>
+
+<script>
+function switchTab(name, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('sec-'+name).classList.add('active');
+}
+
+function toggleMeal(header) {
+  const body = header.nextElementSibling;
+  body.classList.toggle('open');
+}
+
+requestAnimationFrame(function() {
+  document.querySelectorAll('.meal-header')[1].click();
+});
+</script>
+</body>
+</html>
