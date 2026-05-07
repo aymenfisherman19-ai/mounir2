@@ -701,21 +701,38 @@ main { padding: 16px; max-width: 700px; margin: 0 auto; }
 </main>
 
 <script>
-function switchTab(name, el) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('sec-'+name).classList.add('active');
-}
+    // Tab Switching
+    function switchTab(tabName, btn) {
+        // Hide all sections
+        document.querySelectorAll('.section').forEach(section => {
+            section.classList.remove('active');
+        });
+        // Show selected section
+        document.getElementById('sec-' + tabName).classList.add('active');
+        
+        // Update active tab button
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        btn.classList.add('active');
+    }
 
-function toggleMeal(header) {
-  const body = header.nextElementSibling;
-  body.classList.toggle('open');
-}
+    // Meal Accordion
+    function toggleMeal(header) {
+        const body = header.nextElementSibling;
+        body.classList.toggle('open');
+    }
 
-requestAnimationFrame(function() {
-  document.querySelectorAll('.meal-header')[1].click();
-});
+    // Initialize everything when page loads
+    document.addEventListener('DOMContentLoaded', () => {
+        // Open the first meal by default
+        const firstMeal = document.querySelector('.meal-header');
+        if (firstMeal) {
+            toggleMeal(firstMeal);
+        }
+    });
 </script>
+</body>
+</html>
 </body>
 </html>
